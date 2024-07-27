@@ -1,0 +1,56 @@
+from django.shortcuts import render
+from .models import Category, Movie
+
+kategori_liste = ["macera", "romantik", "dram", "bilim kurgu"]
+film_liste = [
+    {
+        "id": 1, 
+        "film_adi": "film 1",
+        "aciklama": "film 1 aciklama",
+        "resim": "1.jpg",
+        "anasayfa": True
+    },
+    {
+        "id": 2,
+        "film_adi": "film 2",
+        "aciklama": "film 2 aciklama",
+        "resim": "2.jpg",
+        "anasayfa": True
+    },
+    {
+        "id": 3,
+        "film_adi": "film 3",
+        "aciklama": "film 3 aciklama",
+        "resim": "3.jpg",
+        "anasayfa": False
+    },
+    {
+        "id": 4,
+        "film_adi": "film 4",
+        "aciklama": "film 4 aciklama",
+        "resim": "4.jpg",
+        "anasayfa": False
+    }
+]
+
+def home(request):
+    data = {
+        "kategoriler": Category.objects.all(),
+        "filmler": Movie.objects.filter(anasayfa=True)
+    }
+    return render(request, "index.html", data)
+
+
+def movies(request):
+    data = {
+        "kategoriler": Category.objects.all(),
+        "filmler": Movie.objects.all()
+    }
+    return render(request, "movies.html", data)
+
+
+def moviesdetails(request, id):
+    data = {
+        "movie": Movie.objects.get(id=id)
+    }
+    return render(request, "details.html", data)
